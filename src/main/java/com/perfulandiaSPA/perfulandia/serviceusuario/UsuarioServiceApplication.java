@@ -1,13 +1,13 @@
-package com.perfulandiaSPA.perfulandia;
+package com.perfulandiaSPA.perfulandia.serviceusuario;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PerfulandiaApplication {
+public class UsuarioServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PerfulandiaApplication.class, args);
+		SpringApplication.run(UsuarioServiceApplication.class, args);
 	}
 
 }

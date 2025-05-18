@@ -1,35 +1,34 @@
-package com.perfulandiaSPA.perfulandia.model;
+package com.perfulandiaSPA.perfulandia.serviceinventario.model;
+
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 
 @Entity
-@Table(name="usuario")
+@Table(name = "producto")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false)
-    private String nombres;
+    private String nombre;
 
     @Column(nullable = false)
-    private String apellidos;
+    private String descripcion;
 
     @Column(nullable = false)
-    private String correo;
+    private BigDecimal precio;
 
     @Column(nullable = false)
-    private String contraseña;
-
-    @Column(nullable = false)
-    private Integer telefono;
+    private Integer stock;
 
 }

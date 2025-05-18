@@ -1,7 +1,7 @@
-package com.perfulandiaSPA.perfulandia.controller;
+package com.perfulandiaSPA.perfulandia.serviceusuario.controller;
 
-import com.perfulandiaSPA.perfulandia.model.Usuario;
-import com.perfulandiaSPA.perfulandia.service.UsuarioService;
+import com.perfulandiaSPA.perfulandia.serviceusuario.model.Usuario;
+import com.perfulandiaSPA.perfulandia.serviceusuario.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
-package com.perfulandiaSPA.perfulandia.service;
+package com.perfulandiaSPA.perfulandia.serviceusuario.service;
 
-import com.perfulandiaSPA.perfulandia.model.Usuario;
-import com.perfulandiaSPA.perfulandia.repository.UsuarioRepository;
+import com.perfulandiaSPA.perfulandia.serviceusuario.model.Usuario;
+import com.perfulandiaSPA.perfulandia.serviceusuario.repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,11 +29,6 @@ public class UsuarioService {
 
     public Usuario save(Usuario usuario) {
         return usuarioRepository.save(usuario);
-    }
-
-    public Usuario updateUser(Usuario sales){
-        Usuario newUser = usuarioRepository.save(sales);
-        return newUser;
     }
 
     public void delete(Long id) {
