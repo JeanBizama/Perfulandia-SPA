@@ -1,4 +1,4 @@
-package com.perfulandiaSPA.perfulandia.serviceusuario.model;
+package com.perfulandiaSPA.perfulandia.serviceinventario.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name="usuario")
+@Table(name = "sucursal")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Usuario {
+public class Sucursal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,8 @@ public class Usuario {
     private String nombre;
 
     @Column(nullable = false)
-    private String correo;
+    private String direccion;
 
     @Column(nullable = false)
-    private String contraseña;
-
-    @Column(nullable = false)
-    private String rol;
-
+    private String horarioApertura;
 }
