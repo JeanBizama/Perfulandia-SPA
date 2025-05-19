@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de usuario</title>
+</head>
+<body>
+<h2>Formulario Registro de usuario</h2>
+<form th:action="@{/auth/register}" method="post" th:object="${usuario}">
+        <label>Nombres: </label>
+        <input type="text" th:field="*{nombres}" /><br/>
+
+        <label>Apellidos:</label>
+        <input type="text" th:field="*{apellidos}" /><br/>
+
+        <label>Correo:</label>
+        <input type="email" th:field="*{correo}" /><br/>
+
+        <label>Contraseña:</label>
+        <input type="password" th:field="*{contraseña}" /><br/>
+
+        <label>Teléfono:</label>
+        <input type="number" th:field="*{telefono}" /><br/>
+
+        <button type="submit">Registrarse</button>
+        
+</form>
+<p>¿Ya tienes cuenta? <a th:href="@{/auth/login}">Ingresa aquí</a></p>
+</body>
+</html>
