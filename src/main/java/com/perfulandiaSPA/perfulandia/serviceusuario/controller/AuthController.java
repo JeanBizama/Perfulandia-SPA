@@ -21,9 +21,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String procesarLogin(@RequestParam String correo, @RequestParam String contraseña, Model model) {
+    public String procesarLogin(@RequestParam String correo, @RequestParam String contrasena, Model model) {
         Usuario usuario = usuarioService.findByCorreo(correo);
-        if (usuario.getContraseña().equals(contraseña)) {
+        if (usuario.getContrasena().equals(contrasena)) {
             model.addAttribute("error", "Credenciales correctas (aun no hay pagina de inicio)");
             return "login";
         }
@@ -41,6 +41,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String procesarRegistro(@ModelAttribute("usuario") Usuario usuario) {
+        usuario.setRol("CLIENTE");
         usuarioService.save(usuario);
         return "redirect:/auth/login";
 

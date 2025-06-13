@@ -50,7 +50,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
         Usuario nuevo = usuarioService.save(usuario);
-        return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
     @DeleteMapping("/{id}")

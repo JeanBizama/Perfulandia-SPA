@@ -1,6 +1,7 @@
 package com.perfulandiaSPA.perfulandia.servicepago.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class Pago {
     @Column(nullable = false)
     private String estado;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(nullable = false)
     private LocalDateTime fechaPago;
 

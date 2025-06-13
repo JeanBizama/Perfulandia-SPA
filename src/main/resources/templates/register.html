@@ -7,14 +7,14 @@
 <body>
 <h2>Formulario Registro de usuario</h2>
 <form th:action="@{/auth/register}" method="post" th:object="${usuario}">
-        <label>Nombres: </label>
-        <input type="text" th:field="*{nombres}" /><br/>
+        <label>Nombre: </label>
+        <input type="text" th:field="*{nombre}" /><br/>
 
         <label>Correo:</label>
         <input type="email" th:field="*{correo}" /><br/>
 
         <label>Contraseña:</label>
-        <input type="password" th:field="*{contraseña}" /><br/>
+        <input type="password" th:field="*{contrasena}" /><br/>
 
         <button type="submit">Registrarse</button>
         

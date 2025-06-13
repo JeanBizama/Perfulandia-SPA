@@ -1,6 +1,7 @@
 package com.perfulandiaSPA.perfulandia.servicelogistica.model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Envio {
     @Column(nullable = false)
     private int idPedido;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(nullable = false)
     private LocalDateTime fechaEnvio;
 

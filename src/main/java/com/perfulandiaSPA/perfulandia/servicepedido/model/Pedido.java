@@ -1,5 +1,6 @@
 package com.perfulandiaSPA.perfulandia.servicepedido.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Pedido {
     @Column(nullable = false)
     private int total;
 
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     @Column(nullable = false)
     private LocalDateTime fechaPedido;
 }

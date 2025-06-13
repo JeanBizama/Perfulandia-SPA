@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-public class UsuarioServiceUnitTest {
+public class UsuarioServiceTest {
 
     @Mock
     private UsuarioRepository usuarioRepository;
@@ -20,14 +20,16 @@ public class UsuarioServiceUnitTest {
     @InjectMocks
     private UsuarioService usuarioService;
 
-    public UsuarioServiceUnitTest() {
+    public UsuarioServiceTest() {
         MockitoAnnotations.openMocks(this);
     }
 
+    Usuario usuario = new Usuario(1, "Juan", "juan@mail.com", "1234", "CLIENTE");
+
     @Test
-    public void testFindAll() {
+    public void findAllTest() {
         when(usuarioRepository.findAll()).thenReturn(
-                Arrays.asList(new Usuario(1, "Juan", "juan@mail.com", "1234", "CLIENTE"))
+                Arrays.asList(usuario)
         );
 
         var result = usuarioService.findAll();
@@ -35,25 +37,22 @@ public class UsuarioServiceUnitTest {
     }
 
     @Test
-    public void testFindById() {
-        Usuario usuario = new Usuario(1, "Ana", "ana@mail.com", "pass", "GERENTE");
+    public void findByIdTest() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
         var result = usuarioService.findById(1L);
-        assertEquals("Ana", result.getNombre());
+        assertEquals("Juan", result.getNombre());
     }
 
     @Test
-    public void testSave() {
-        Usuario usuario = new Usuario(null, "Luis", "luis@mail.com", "abc", "CLIENTE");
+    public void saveTest() {
         when(usuarioRepository.save(usuario)).thenReturn(usuario);
-
         var result = usuarioService.save(usuario);
-        assertEquals("Luis", result.getNombre());
+        assertEquals("Juan", result.getNombre());
     }
 
     @Test
-    public void testDelete() {
+    public void deleteTest() {
         usuarioService.delete(1L);
         verify(usuarioRepository, times(1)).deleteById(1L);
     }
