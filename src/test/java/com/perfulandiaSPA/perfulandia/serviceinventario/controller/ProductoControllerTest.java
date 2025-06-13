@@ -3,7 +3,6 @@ package com.perfulandiaSPA.perfulandia.serviceinventario.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.perfulandiaSPA.perfulandia.serviceinventario.model.Producto;
 import com.perfulandiaSPA.perfulandia.serviceinventario.service.ProductoService;
-import com.perfulandiaSPA.perfulandia.servicepago.model.Pago;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +63,14 @@ public class ProductoControllerTest {
     }
 
     @Test
+    public void getProductoByNameTest() throws Exception {
+        Mockito.when(productoService.findByNombre("perfume")).thenReturn(producto);
+        mockMvc.perform(get("/api/v1/productos/nombre/perfume"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nombre").value("perfume"));
+    }
+
+    @Test
     public void createProductoTest() throws Exception {
         Mockito.when(productoService.save(Mockito.any(Producto.class))).thenReturn(producto);
 
@@ -88,6 +95,7 @@ public class ProductoControllerTest {
 
     @Test
     public void deleteProductoTest() throws Exception {
+        Mockito.when(productoService.findById(1L)).thenReturn(producto);
         Mockito.doNothing().when(productoService).delete(1L);
         mockMvc.perform(delete("/api/v1/productos/1"))
                 .andExpect(status().isNoContent());

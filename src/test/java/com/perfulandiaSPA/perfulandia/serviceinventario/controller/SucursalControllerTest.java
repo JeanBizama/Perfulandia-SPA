@@ -87,6 +87,7 @@ public class SucursalControllerTest {
 
     @Test
     public void deleteSucursalTest() throws Exception {
+        Mockito.when(sucursalService.findById(1L)).thenReturn(sucursal);
         Mockito.doNothing().when(sucursalService).delete(1L);
         mockMvc.perform(delete("/api/v1/sucursales/1"))
                 .andExpect(status().isNoContent());

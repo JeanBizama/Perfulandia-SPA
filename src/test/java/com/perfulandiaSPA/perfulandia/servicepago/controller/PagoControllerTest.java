@@ -86,6 +86,7 @@ public class PagoControllerTest {
 
     @Test
     public void deletePagoTest() throws Exception {
+        Mockito.when(pagoService.findById(1L)).thenReturn(pago);
         Mockito.doNothing().when(pagoService).delete(1L);
         mockMvc.perform(delete("/api/v1/pagos/1"))
                 .andExpect(status().isNoContent());

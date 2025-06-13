@@ -88,6 +88,7 @@ public class PedidoControllerTest {
 
     @Test
     public void deletePedidoTest() throws Exception {
+        Mockito.when(pedidoService.findById(1L)).thenReturn(pedido);
         Mockito.doNothing().when(pedidoService).delete(1L);
         mockMvc.perform(delete("/api/v1/pedidos/1"))
                 .andExpect(status().isNoContent());

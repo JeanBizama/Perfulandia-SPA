@@ -87,6 +87,7 @@ public class EnvioControllerTest {
 
     @Test
     public void deleteEnvioTest() throws Exception {
+        Mockito.when(envioService.findById(1L)).thenReturn(envio);
         Mockito.doNothing().when(envioService).delete(1L);
         mockMvc.perform(delete("/api/v1/envios/1"))
                 .andExpect(status().isNoContent());

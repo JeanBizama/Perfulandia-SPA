@@ -32,7 +32,7 @@ public class UsuarioControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    Usuario usuario = new Usuario(1, "Juan", "juan@mail.com", "password123","CLIENTE");
+    Usuario usuario = new Usuario(1, "Juan", "juan@gmail.com", "password123","CLIENTE");
 
     @Test
     public void getUsersWithUsersTest() throws Exception {
@@ -51,6 +51,7 @@ public class UsuarioControllerTest {
 
     @Test
     public void getUserByIdTest() throws Exception {
+        Mockito.when(usuarioService.findById(1L)).thenReturn(usuario);
         mockMvc.perform(get("/api/v1/usuarios/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -58,9 +59,8 @@ public class UsuarioControllerTest {
 
     @Test
     public void getUserByEmailTest() throws Exception {
-        Mockito.when(usuarioService.findByCorreo("juan@mail.com")).thenReturn(usuario);
-
-        mockMvc.perform(get("/api/v1/usuarios/correo/juan@mail.com"))
+        Mockito.when(usuarioService.findByCorreo("juan@gmail.com")).thenReturn(usuario);
+        mockMvc.perform(get("/api/v1/usuarios/correo/juan@gmail.com"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.nombre").value("Juan"));
     }
@@ -73,7 +73,7 @@ public class UsuarioControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(usuario)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.correo").value("juan@mail.com"));
+                .andExpect(jsonPath("$.correo").value("juan@gmail.com"));
     }
 
 
@@ -90,6 +90,7 @@ public class UsuarioControllerTest {
 
     @Test
     public void deleteUserTest() throws Exception {
+        Mockito.when(usuarioService.findById(1L)).thenReturn(usuario);
         Mockito.doNothing().when(usuarioService).delete(1L);
         mockMvc.perform(delete("/api/v1/usuarios/1"))
                 .andExpect(status().isNoContent());
