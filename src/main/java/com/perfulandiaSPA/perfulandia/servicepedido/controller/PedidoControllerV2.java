@@ -1,5 +1,6 @@
 package com.perfulandiaSPA.perfulandia.servicepedido.controller;
 
+import com.perfulandiaSPA.perfulandia.servicepedido.assembler.PedidoModelAssembler;
 import com.perfulandiaSPA.perfulandia.servicepedido.model.Pedido;
 import com.perfulandiaSPA.perfulandia.servicepedido.service.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,18 +11,27 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/api/v1/pedidos")
+@RequestMapping("/api/v2/pedidos")
 @Tag(name="Pedidos", description = "Operaciones relacionadas con los pedidos")
-public class PedidoController {
+public class PedidoControllerV2 {
 
     @Autowired
     private PedidoService pedidoService;
+
+    @Autowired
+    private PedidoModelAssembler assembler;
 
     @GetMapping()
     @Operation(summary = "Obtener todos los pedidos", description = "Obtiene una lista de todos los pedidos")
@@ -31,12 +41,19 @@ public class PedidoController {
                             schema = @Schema(implementation = Pedido.class))),
             @ApiResponse(responseCode = "204", description = "No hay pedidos disponibles")
     })
-    public ResponseEntity<List<Pedido>> listar() {
+    public ResponseEntity<CollectionModel<EntityModel<Pedido>>> listar() {
         List<Pedido> pedidos = pedidoService.findAll();
         if (pedidos.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(pedidos);
+
+        List<EntityModel<Pedido>> pedidosModel = pedidos.stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(CollectionModel.of(pedidosModel,
+                linkTo(methodOn(PedidoControllerV2.class).listar()).withSelfRel())
+        );
     }
 
     @GetMapping("/{id}")
@@ -47,12 +64,12 @@ public class PedidoController {
                             schema = @Schema(implementation = Pedido.class))),
             @ApiResponse(responseCode = "404", description = "Pedido no encontrado")
     })
-    public ResponseEntity<Pedido> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<EntityModel<Pedido>> obtenerPorId(@PathVariable Long id) {
         Pedido pedido = pedidoService.findById(id);
         if (pedido == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(pedido);
+        return ResponseEntity.ok(assembler.toModel(pedido));
     }
 
     @PutMapping("/{id}")
@@ -63,13 +80,14 @@ public class PedidoController {
                             schema = @Schema(implementation = Pedido.class))),
             @ApiResponse(responseCode = "404", description = "Pedido no encontrada")
     })
-    public ResponseEntity<Pedido> actualizarPedido(@PathVariable Long id, @Valid @RequestBody Pedido pedido) {
+    public ResponseEntity<EntityModel<Pedido>> actualizarPedido(@PathVariable Long id, @Valid @RequestBody Pedido pedido) {
         Pedido existente = pedidoService.findById(id);
         if (existente == null) {
             return ResponseEntity.notFound().build();
         }
         pedido.setId(id.intValue());
-        return ResponseEntity.ok(pedidoService.save(pedido));
+        Pedido actualizado = pedidoService.save(pedido);
+        return ResponseEntity.ok(assembler.toModel(actualizado));
     }
 
     @PostMapping
@@ -80,9 +98,9 @@ public class PedidoController {
                             schema = @Schema(implementation = Pedido.class))),
             @ApiResponse(responseCode = "400", description = "Datos proporcionados inválidos")
     })
-    public ResponseEntity<Pedido> crearPedido(@Valid @RequestBody Pedido pedido) {
+    public ResponseEntity<EntityModel<Pedido>> crearPedido(@Valid @RequestBody Pedido pedido) {
         Pedido nuevo = pedidoService.save(pedido);
-        return new ResponseEntity<>(nuevo, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(assembler.toModel(nuevo));
     }
 
     @DeleteMapping("/{id}")
